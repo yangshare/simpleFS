@@ -2,17 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
-    <groupId>com.zhouzifei</groupId>
+    <groupId>io.github.yangshare</groupId>
     <artifactId>simpleFS</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.4.RELEASES</version>
+    <version>1.0.5</version>
     <name>simpleFS</name>
     <description>小型整合型的工具类</description>
+    <url>>https://github.com/yangshare/simpleFS</url>
     <properties>
         <fastjson.version>1.2.83</fastjson.version>
         <aliyun.oss.version>3.13.2</aliyun.oss.version>
@@ -194,7 +190,26 @@
     </dependencyManagement>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
             <!-- 发布Jar到Maven仓库 Begin -->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.4.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>yangshare</publishingServerId>
+                    <tokenAuth>true</tokenAuth>
+                </configuration>
+            </plugin>
             <!--生成Source jar文件-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -210,75 +225,45 @@
                 </executions>
             </plugin>
             <!--生成Javadoc，关闭doclint,避免注解检查不通过-->
-            <!--<plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.0.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding> <!-- 设置字符编码 -->
+                    <docencoding>UTF-8</docencoding>
+                    <charset>UTF-8</charset>
+                    <sourcepath>${project.basedir}/src/main/java</sourcepath> <!-- 指定源代码路径 -->
+                    <additionalJOption>-Xdoclint:none</additionalJOption> <!-- 关闭doclint，避免注解检查不通过 -->
+                    <failOnError>false</failOnError> <!-- 即使有错误也不中断构建 -->
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                        <configuration>
-                            <additionalJOption>-Xdoclint:none</additionalJOption>
-                            <show>private</show>
-                            <outputDirectory>${user.home}/apidocs</outputDirectory>
-                        </configuration>
                     </execution>
                 </executions>
-            </plugin>-->
+            </plugin>
             <!--Maven GPG插件用于使用以下配置对组件进行签名-->
-            <!--<plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
+                <version>1.6</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
                         <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <keyname>${gpg.keyname}</keyname>
+                            <passphrase>${gpg.passphrase}</passphrase>
+                        </configuration>
                     </execution>
                 </executions>
-            </plugin>-->
-            <!--Nexus Staging Maven插件是将组件部署到OSSRH并将其发布到Central Repository的推荐方法-->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-            <!-- release plugin,用于发布到release仓库部署插件 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.4.2</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-            <!-- 发布Jar到Maven仓库 End -->
-            <!-- codecov -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <formats>
-                        <format>html</format>
-                        <format>xml</format>
-                    </formats>
-                    <check />
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -291,24 +276,24 @@
     </licenses>
     <scm>
         <tag>master</tag>
-        <url>git@github.com:shengdingbox/simpleFS.git</url>
-        <connection>scm:git@github.com:shengdingbox/simpleFS.git</connection>
-        <developerConnection>scm:git:git@github.com:shengdingbox/simpleFS.git</developerConnection>
+        <url>https://github.com/yangshare/simpleFS</url>
+        <connection>https://github.com/yangshare/simpleFS.git</connection>
+        <developerConnection>scm:git:git@github.com:yangshare/simpleFS.git</developerConnection>
     </scm>
     <developers>
         <developer>
-            <name>zhouzifei</name>
-            <email>17600004572@163.com</email>
-            <organization>zhouzifei</organization>
+            <name>yangshare</name>
+            <email>simayifeng@gmail.com</email>
+            <organization>yangshare</organization>
         </developer>
     </developers>
     <distributionManagement>
         <snapshotRepository>
-            <id>sonatype-nexus-staging</id>
+            <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>sonatype-nexus-staging</id>
+            <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
