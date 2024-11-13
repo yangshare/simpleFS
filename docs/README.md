@@ -38,46 +38,20 @@
 ### 依赖包方式引入
 
 ```xml
-<dependency>
-  <groupId>com.zhouzifei</groupId>
-  <artifactId>simpleFS</artifactId>
-  <version>{latest-version}</version>
-</dependency>
+<!-- https://github.com/yangshare/simpleFS -->
+    <dependency>
+      <groupId>io.github.yangshare</groupId>
+      <artifactId>simpleFS</artifactId>
+      <version>1.0.5</version>
+    </dependency>
 ```
-> **latest-version** 版本为：
-> - 稳定版本：![](https://img.shields.io/github/v/release/shengdingbox/simpleFS?style=flat-square)
-> - 快照版本：![](https://img.shields.io/maven-metadata/v.svg?label=snapshots&metadataUrl=https://repo1.maven.org/maven2/com/zhouzifei/simpleFS/maven-metadata.xml&style=flat-square)
-> > 注意：无法引入可添加中央仓库地址。
->
->
-> ```xml
-> <repositories>
->     <repository>
->         <id>ossrh-snapshot</id>
->         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
->         <snapshots>
->             <enabled>true</enabled>
->         </snapshots>
->     </repository>
-> </repositories>
-> ```
->
-> 如果你想第一时间获取 simpleFS 的最新快照，可以添加下列代码，每次构建时都检查是否有最新的快照（默认每天检查）。
->
-> ```diff
->        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
->         <snapshots>
-> +           <updatePolicy>always</updatePolicy>
->             <enabled>true</enabled>
->         </snapshots>
-> ```
 
 ### 源码安装方式引入
 拉取代码
 
 ```shell
-git clone https://gitee.com/zifeiZhou/simpleFS.git(国内，版本较为落后)
-git clone https://github.com/shengdingbox/simpleFS.git(默认)
+git clone https://github.com/shengdingbox/simpleFS.git(默认，原作者仓库)
+git clone https://github.com/yangshare/simpleFS.git(派生仓库，进行了七牛云SDK升级和测试)
 ```
 编译构建
 ```shell
